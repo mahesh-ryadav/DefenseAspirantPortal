@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import notifications from '../data/notifications';
+import notifications from "../data/notifications";
 
 import {
   FaBullhorn,
@@ -9,6 +9,7 @@ import {
   FaCheckCircle,
   FaArrowLeft,
 } from "react-icons/fa";
+
 const iconMap = {
   recruitment: <FaBullhorn className="text-blue-600 w-6 h-6" />,
   examDate: <FaCalendarAlt className="text-yellow-600 w-6 h-6" />,
@@ -27,7 +28,11 @@ const NotificationDetailsPage = () => {
   const notification = notifications.find((n) => n.id === Number(id));
 
   if (!notification) {
-    return <div className="text-center mt-20 text-gray-500">Notification not found</div>;
+    return (
+      <main className="min-h-screen flex items-center justify-center text-gray-500 text-lg">
+        Notification not found.
+      </main>
+    );
   }
 
   const icon = iconMap[notification.type] || (
@@ -35,74 +40,82 @@ const NotificationDetailsPage = () => {
   );
 
   return (
-    <main className="bg-gray-50 min-h-screen py-12 px-4 sm:px-8 lg:px-16">
-      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow p-8">
+    <main className="bg-gray-50 min-h-screen py-10 px-4 sm:px-6 lg:px-16">
+      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-6 sm:p-8">
+        {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
           className="flex items-center text-sm text-green-600 hover:underline mb-6"
         >
-          <FaArrowLeft className="mr-2" /> Back
+          <FaArrowLeft className="mr-2" />
+          Back
         </button>
 
-        <div className="flex items-center gap-4 mb-4">
-          <div className="p-3 bg-gray-100 rounded-lg">{icon}</div>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-800">
-              {notification.title}
-            </h1>
-            <p className="text-sm text-gray-500">{notification.time}</p>
+        {/* Header */}
+        <div className="flex items-start gap-4 mb-6">
+          <div className="p-3 bg-gray-100 rounded-full">{icon}</div>
+          <div className="flex-1">
+            <h1 className="text-2xl font-bold text-gray-800">{notification.title}</h1>
+            <p className="text-sm text-gray-500 mt-1">{notification.time}</p>
           </div>
         </div>
 
-        <p className="text-gray-700 leading-relaxed whitespace-pre-line mt-4 mb-6">
+        {/* Message */}
+        <p className="text-gray-700 leading-relaxed mb-6 whitespace-pre-line">
           {notification.message}
         </p>
 
-        {notification.eligibility && notification.eligibility.qualification && (
-          <div className="mb-4">
-            <h2 className="font-semibold text-gray-700 mb-1">Eligibility:</h2>
-            <ul className="list-disc list-inside text-sm text-gray-600">
-              <li>Age Limit: {notification.eligibility.ageLimit}</li>
-              <li>Qualification: {notification.eligibility.qualification}</li>
-              <li>Gender: {notification.eligibility.gender}</li>
-              <li>Nationality: {notification.eligibility.nationality}</li>
+        {/* Eligibility */}
+        {notification.eligibility && (
+          <section className="mb-6">
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">Eligibility</h2>
+            <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+              <li><strong>Age Limit:</strong> {notification.eligibility.ageLimit}</li>
+              <li><strong>Qualification:</strong> {notification.eligibility.qualification}</li>
+              <li><strong>Gender:</strong> {notification.eligibility.gender}</li>
+              <li><strong>Nationality:</strong> {notification.eligibility.nationality}</li>
             </ul>
-          </div>
+          </section>
         )}
 
-        {notification.vacancyBreakup?.length > 0 && (
-          <div className="mb-4">
-            <h2 className="font-semibold text-gray-700 mb-1">Vacancy Breakup:</h2>
-            <ul className="list-disc list-inside text-sm text-gray-600">
-              {notification.vacancyBreakup.map((v, i) => (
+        {/* Vacancy Breakup */}
+        {(notification.vacancyBreakup ?? []).length > 0 && (
+          <section className="mb-6">
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">Vacancy Breakup</h2>
+            <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+              {(notification.vacancyBreakup ?? []).map((v, i) => (
                 <li key={i}>
-                  {v.branch}: {v.seats} seats
+                  <strong>{v.branch}:</strong> {v.seats} seats
                 </li>
               ))}
             </ul>
-          </div>
+          </section>
         )}
 
-        {notification.selectionProcess?.length > 0 && (
-          <div className="mb-6">
-            <h2 className="font-semibold text-gray-700 mb-1">Selection Process:</h2>
-            <ul className="list-disc list-inside text-sm text-gray-600">
-              {notification.selectionProcess.map((step, i) => (
+        {/* Selection Process */}
+        {(notification.selectionProcess ?? []).length > 0 && (
+          <section className="mb-6">
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">Selection Process</h2>
+            <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+              {(notification.selectionProcess ?? []).map((step, i) => (
                 <li key={i}>{step}</li>
               ))}
             </ul>
-          </div>
+          </section>
         )}
 
+        {/* Apply Link */}
         {notification.applyLink && (
-          <a
-            href={notification.applyLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-green-600 text-white px-4 py-2 rounded-full text-sm hover:bg-green-700 transition"
-          >
-            Visit Official Website
-          </a>
+          <div className="mt-6">
+            <a
+              href={notification.applyLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-green-600 hover:bg-green-700 text-white text-sm px-5 py-2 rounded-full transition"
+            >
+              Visit Official Website
+            </a>
+          </div>
         )}
       </div>
     </main>

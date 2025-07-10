@@ -11,13 +11,13 @@ import NotificationsPage from './pages/NotificationsPage';
 import MockTests from './pages/MockTests';
 import NotificationDetailsPage from './pages/NotificationDetailsPage';
 import ResourcesPage from './pages/ResourcesPage';
-// import Dashboard from './pages/Dashboard';
-
+import NoticeBanner from './pages/NoticeBanner';
 function App() {
   return (
     <Router>
+      <NoticeBanner /> 
       <div className="min-h-screen flex flex-col">
-        <Navbar isAuthenticated={false} />
+        <Navbar />
 
         <main className="flex-grow">
           <Routes>
@@ -28,7 +28,6 @@ function App() {
             <Route path="/notification/:id" element={<NotificationDetailsPage />} />
             <Route path="/mock-tests" element={<MockTests />} />
             <Route path="/resources" element={<ResourcesPage />} />
-
           </Routes>
         </main>
 

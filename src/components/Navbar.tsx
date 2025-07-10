@@ -2,17 +2,23 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes, FaBell, FaSearch } from "react-icons/fa";
 
+interface User {
+  name: string;
+  avatar: string;
+}
+
 const Navbar = () => {
-  const [user, setUser] = useState(null);
+  // Replace `null` with actual auth logic if available
+  const [user] = useState<User | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm">
+    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
-        {/* Logo + Name */}
+        {/* Logo */}
         <div className="flex items-center gap-2">
           <svg
             className="size-6 text-green-700"
@@ -27,38 +33,40 @@ const Navbar = () => {
           </h2>
         </div>
 
-        {/* Search (hidden on small screens) */}
+        {/* Desktop Search */}
         <div className="hidden md:flex items-center w-full max-w-md mx-4 relative">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search notifications, exams..."
-            className="w-full rounded-full border border-green-300 bg-green-50 py-2 pl-5 pr-10 text-sm text-green-900 placeholder-green-600 shadow-sm focus:border-green-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-green-400"
+            className="w-full rounded-full border border-green-300 bg-green-50 py-2 pl-5 pr-10 text-sm text-green-900 placeholder-green-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-400"
           />
           <FaSearch className="absolute right-3 text-green-600" />
         </div>
 
-        {/* Desktop Nav */}
+        {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6">
           <nav className="flex gap-6">
             <Link to="/notifications" className="flex items-center gap-1 text-sm font-medium text-green-900 hover:text-green-600 transition">
               <FaBell className="text-green-700" />
               Notifications
             </Link>
-            <Link to="/mock-tests" className="text-sm font-medium text-green-900 hover:text-green-600 transition">Mock Tests</Link>
-            <Link to="/resources" className="text-sm font-medium text-green-900 hover:text-green-600 transition">Resources</Link>
+            <Link to="/mock-tests" className="text-sm font-medium text-green-900 hover:text-green-600 transition">
+              Mock Tests
+            </Link>
+            <Link to="/resources" className="text-sm font-medium text-green-900 hover:text-green-600 transition">
+              Resources
+            </Link>
           </nav>
 
           {user ? (
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <div
-                  className="size-10 rounded-full bg-cover bg-center border-2 border-green-200"
-                  style={{ backgroundImage: `url("https://i.pravatar.cc/100")` }}
-                />
-                <span className="absolute -top-1 -right-1 size-3 bg-green-500 rounded-full border-2 border-white"></span>
-              </div>
+            <div className="relative">
+              <div
+                className="size-10 rounded-full bg-cover bg-center border-2 border-green-200"
+                style={{ backgroundImage: `url("${user.avatar}")` }}
+              />
+              <span className="absolute -top-1 -right-1 size-3 bg-green-500 rounded-full border-2 border-white"></span>
             </div>
           ) : (
             <div className="flex gap-3">
@@ -79,10 +87,10 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu Button */}
-        <button 
-          onClick={toggleMenu} 
-          className="md:hidden text-green-800 focus:outline-none"
-          aria-label="Toggle menu"
+        <button
+          onClick={toggleMenu}
+          className="md:hidden text-green-800"
+          aria-label="Toggle mobile menu"
         >
           {isOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
         </button>
@@ -98,32 +106,20 @@ const Navbar = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search..."
-              className="w-full rounded-full border border-green-300 bg-green-50 py-2 pl-5 pr-10 text-sm text-green-900 placeholder-green-600 shadow-sm focus:border-green-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="w-full rounded-full border border-green-300 bg-green-50 py-2 pl-5 pr-10 text-sm text-green-900 placeholder-green-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-400"
             />
             <FaSearch className="absolute right-3 top-3 text-green-600" />
           </div>
 
           <nav className="flex flex-col gap-3">
-            <Link 
-              to="/notifications" 
-              className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-green-900 hover:bg-green-50 rounded-lg transition"
-              onClick={toggleMenu}
-            >
+            <Link to="/notifications" className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-green-900 hover:bg-green-50 rounded-lg transition" onClick={toggleMenu}>
               <FaBell className="text-green-700" />
               Notifications
             </Link>
-            <Link 
-              to="/mock-tests" 
-              className="px-3 py-2 text-sm font-medium text-green-900 hover:bg-green-50 rounded-lg transition"
-              onClick={toggleMenu}
-            >
+            <Link to="/mock-tests" className="px-3 py-2 text-sm font-medium text-green-900 hover:bg-green-50 rounded-lg transition" onClick={toggleMenu}>
               Mock Tests
             </Link>
-            <Link 
-              to="/resources" 
-              className="px-3 py-2 text-sm font-medium text-green-900 hover:bg-green-50 rounded-lg transition"
-              onClick={toggleMenu}
-            >
+            <Link to="/resources" className="px-3 py-2 text-sm font-medium text-green-900 hover:bg-green-50 rounded-lg transition" onClick={toggleMenu}>
               Resources
             </Link>
           </nav>
@@ -133,27 +129,19 @@ const Navbar = () => {
               <div className="flex items-center gap-3 px-3 py-2">
                 <div
                   className="size-10 rounded-full bg-cover bg-center border-2 border-green-200"
-                  style={{ backgroundImage: `url("https://i.pravatar.cc/100")` }}
+                  style={{ backgroundImage: `url("${user.avatar}")` }}
                 />
                 <div>
-                  <p className="text-sm font-medium text-green-900">John Doe</p>
+                  <p className="text-sm font-medium text-green-900">{user.name}</p>
                   <p className="text-xs text-green-600">View Profile</p>
                 </div>
               </div>
             ) : (
               <div className="flex gap-3">
-                <Link
-                  to="/login"
-                  className="flex-1 text-center px-4 py-2 text-sm rounded-full bg-green-600 text-white hover:bg-green-700 transition"
-                  onClick={toggleMenu}
-                >
+                <Link to="/login" className="flex-1 text-center px-4 py-2 text-sm rounded-full bg-green-600 text-white hover:bg-green-700 transition" onClick={toggleMenu}>
                   Login
                 </Link>
-                <Link
-                  to="/register"
-                  className="flex-1 text-center px-4 py-2 text-sm rounded-full border border-green-600 text-green-600 hover:bg-green-50 transition"
-                  onClick={toggleMenu}
-                >
+                <Link to="/register" className="flex-1 text-center px-4 py-2 text-sm rounded-full border border-green-600 text-green-600 hover:bg-green-50 transition" onClick={toggleMenu}>
                   Register
                 </Link>
               </div>

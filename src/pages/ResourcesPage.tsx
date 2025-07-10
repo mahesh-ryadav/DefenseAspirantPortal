@@ -1,6 +1,17 @@
 import { FaFilePdf, FaVideo, FaBookOpen } from "react-icons/fa";
+import type { ReactElement } from "react";
 
-const resources = [
+type ResourceType = "pdf" | "video" | "book";
+
+type Resource = {
+  id: number;
+  title: string;
+  description: string;
+  type: ResourceType;
+  link: string;
+};
+
+const resources: Resource[] = [
   {
     id: 1,
     title: "NDA Mathematics Syllabus PDF",
@@ -31,7 +42,7 @@ const resources = [
   },
 ];
 
-const iconMap = {
+const iconMap: Record<ResourceType, ReactElement> = {
   pdf: <FaFilePdf className="text-red-500 w-6 h-6" />,
   video: <FaVideo className="text-blue-600 w-6 h-6" />,
   book: <FaBookOpen className="text-green-600 w-6 h-6" />,
@@ -43,7 +54,9 @@ const ResourcesPage = () => {
       <div className="max-w-5xl mx-auto">
         <header className="text-center mb-10">
           <h1 className="text-4xl font-bold text-green-700 mb-2">Resources</h1>
-          <p className="text-gray-600 text-base">Download study material, watch preparation videos, and explore useful handouts.</p>
+          <p className="text-gray-600 text-base">
+            Download study material, watch preparation videos, and explore useful handouts.
+          </p>
         </header>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
@@ -57,7 +70,7 @@ const ResourcesPage = () => {
             >
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-gray-100 rounded-full">
-                  {iconMap[res.type] || <FaBookOpen className="text-gray-500 w-6 h-6" />}
+                  {iconMap[res.type]}
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-800 group-hover:text-green-700 transition">
