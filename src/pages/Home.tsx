@@ -10,7 +10,7 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between">
           <div className="md:w-1/2 text-center md:text-left">
             <h1 className="text-4xl md:text-5xl font-extrabold text-green-700 leading-tight mb-4">
-              Your Gateway to Defence Success 🚀
+              Your Gateway to Defence Success...
             </h1>
             <p className="text-gray-600 mb-6 text-lg">
               Get instant access to notifications, mock tests, and resources. Tailored for serious defence aspirants.
@@ -30,13 +30,18 @@ const Home: React.FC = () => {
               </Link>
             </div>
           </div>
-          <div className="mt-10 md:mt-0 md:w-1/2">
-            <img
-              src="/illustrations/defence-training.svg"
-              alt="Defence Illustration"
-              className="w-full max-w-md mx-auto"
-            />
-          </div>
+          <div className="mt-10 md:mt-0 md:w-1/2 flex justify-center items-center">
+  <div className="relative w-full max-w-md rounded-xl overflow-hidden shadow-2xl border border-gray-200">
+    <img
+      src="/images/defence-illusion.jpg"
+      alt="Defence Illustration"
+      className="w-full h-auto object-cover transition-transform duration-500 hover:scale-105"
+    />
+    
+  </div>
+</div>
+
+
         </div>
       </section>
 

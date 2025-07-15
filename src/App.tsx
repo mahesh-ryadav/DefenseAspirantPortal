@@ -12,10 +12,14 @@ import MockTests from './pages/MockTests';
 import NotificationDetailsPage from './pages/NotificationDetailsPage';
 import ResourcesPage from './pages/ResourcesPage';
 import NoticeBanner from './pages/NoticeBanner';
+import AdminPanel from './pages/Admin/AdminPanel';
+
+
+
 function App() {
   return (
     <Router>
-      <NoticeBanner /> 
+      <NoticeBanner />
       <div className="min-h-screen flex flex-col">
         <Navbar />
 
@@ -28,6 +32,13 @@ function App() {
             <Route path="/notification/:id" element={<NotificationDetailsPage />} />
             <Route path="/mock-tests" element={<MockTests />} />
             <Route path="/resources" element={<ResourcesPage />} />
+
+            {/* Admin layout with nested routes */}
+            <Route path="/admin-panel" element={<AdminPanel />}>
+              {/* <Route path="dashboard" element={<Dashboard />} /> */}
+              {/* <Route path="notifications" element={<Notifications />} /> */}
+              {/* Add more admin routes here */}
+            </Route>
           </Routes>
         </main>
 
